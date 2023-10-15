@@ -1,6 +1,7 @@
 package aaagt.servlets.servlet;
 
 import aaagt.servlets.controller.PostController;
+import aaagt.servlets.exception.NotFoundException;
 import aaagt.servlets.repository.PostRepository;
 import aaagt.servlets.service.PostService;
 import jakarta.servlet.http.HttpServlet;
@@ -35,7 +36,7 @@ public class MainServlet extends HttpServlet {
             }
             if (method.equals(GET) && path.matches("/api/posts/\\d+")) {
                 // easy way
-                final var id = Long.parseLong(path.substring(path.lastIndexOf("/")));
+                final var id = Long.parseLong(path.substring(path.lastIndexOf("/") + 1));
                 controller.getById(id, resp);
                 return;
             }
@@ -45,10 +46,13 @@ public class MainServlet extends HttpServlet {
             }
             if (method.equals(DELETE) && path.matches("/api/posts/\\d+")) {
                 // easy way
-                final var id = Long.parseLong(path.substring(path.lastIndexOf("/")));
+                final var id = Long.parseLong(path.substring(path.lastIndexOf("/") + 1));
                 controller.removeById(id, resp);
                 return;
             }
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } catch (Exception e) {
             e.printStackTrace();

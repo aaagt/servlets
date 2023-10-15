@@ -38,6 +38,9 @@ public class PostRepository {
     }
 
     public void removeById(long id) {
+        if (!storage.containsKey(id)) {
+            throw new NotFoundException();
+        }
         storage.remove(id);
     }
 }
