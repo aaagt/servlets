@@ -1,25 +1,43 @@
 package aaagt.servlets.repository;
 
+import aaagt.servlets.exception.NotFoundException;
 import aaagt.servlets.model.Post;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
-// Stub
 public class PostRepository {
+
+    private static final AtomicLong idCounter = new AtomicLong(0L);
+    private static final Map<Long, Post> storage = new ConcurrentHashMap<>();
+
     public List<Post> all() {
-        return Collections.emptyList();
+        return storage.values().stream().toList();
     }
 
     public Optional<Post> getById(long id) {
-        return Optional.empty();
+        return Optional.ofNullable(storage.getOrDefault(id, null));
     }
 
     public Post save(Post post) {
+        final long id;
+        if (post.getId() == 0) {
+            id = idCounter.incrementAndGet();
+            post.setId(id);
+        } else {
+            id = post.getId();
+            if (!storage.containsKey(id)) {
+                throw new NotFoundException();
+            }
+        }
+        storage.put(id, post);
         return post;
     }
 
     public void removeById(long id) {
+        storage.remove(id);
     }
 }
