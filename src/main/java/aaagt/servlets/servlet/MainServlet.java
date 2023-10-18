@@ -2,11 +2,10 @@ package aaagt.servlets.servlet;
 
 import aaagt.servlets.controller.PostController;
 import aaagt.servlets.exception.NotFoundException;
-import aaagt.servlets.repository.PostRepository;
-import aaagt.servlets.service.PostService;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class MainServlet extends HttpServlet {
 
@@ -18,9 +17,8 @@ public class MainServlet extends HttpServlet {
 
     @Override
     public void init() {
-        final var repository = new PostRepository();
-        final var service = new PostService(repository);
-        controller = new PostController(service);
+        final var context = new AnnotationConfigApplicationContext("aaagt.servlets");
+        controller = context.getBean(PostController.class);
     }
 
     @Override
@@ -60,4 +58,3 @@ public class MainServlet extends HttpServlet {
         }
     }
 }
-

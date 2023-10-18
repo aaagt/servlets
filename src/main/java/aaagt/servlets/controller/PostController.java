@@ -4,10 +4,12 @@ import aaagt.servlets.model.Post;
 import aaagt.servlets.service.PostService;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.io.Reader;
 
+@Controller
 public class PostController {
     public static final String APPLICATION_JSON = "application/json";
     private final PostService service;

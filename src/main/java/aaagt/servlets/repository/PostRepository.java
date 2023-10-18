@@ -2,6 +2,7 @@ package aaagt.servlets.repository;
 
 import aaagt.servlets.exception.NotFoundException;
 import aaagt.servlets.model.Post;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Repository
 public class PostRepository {
 
     private static final AtomicLong idCounter = new AtomicLong(0L);
