@@ -3,9 +3,11 @@ package aaagt.servlets.service;
 import aaagt.servlets.exception.NotFoundException;
 import aaagt.servlets.model.Post;
 import aaagt.servlets.repository.PostRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PostService {
     private final PostRepository repository;
 
